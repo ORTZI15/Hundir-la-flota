@@ -52,15 +52,22 @@ def colocar_barcos(tablero):  # Recibe el tablero donde colocaremos los barcos
     return tablero  # Devolvemos el tablero con todos los barcos colocados
 
 
-def disparar(tablero, fila, columna):  # Recibe el tablero y las coordenadas del disparo
+def disparar(tablero, fila, columna):  # Recibe el tablero y las coordenadas
 
-    if tablero[fila, columna] == v.tocado or tablero[fila, columna] == v.fallo:  # Comprobamos si ya se disparó aquí
-        return "Ya has disparado en esta casilla."  # Avisamos de que el disparo está repetido
+    # Comprobamos que las coordenadas estén dentro del tablero
+    if not (0 <= fila < v.tamano_tablero and 0 <= columna < v.tamano_tablero):
+        return "Coordenadas fuera del tablero."
 
-    if tablero[fila, columna] == v.barco:  # Comprobamos si hay un barco en la casilla
-        tablero[fila, columna] = v.tocado  # Marcamos la casilla como tocada
-        return "¡Tocado!"  # Devolvemos el resultado del disparo
+    # Comprobamos si ya se ha disparado en esa casilla
+    if tablero[fila, columna] == v.tocado or tablero[fila, columna] == v.fallo:
+        return "Ya has disparado en esta casilla."
 
-    else:  # Si no hay barco, la casilla contiene agua
-        tablero[fila, columna] = v.fallo  # Marcamos la casilla como fallo
-        return "Agua."  # Devolvemos el resultado del disparo
+    # Si hay un barco, lo marcamos como tocado
+    if tablero[fila, columna] == v.barco:
+        tablero[fila, columna] = v.tocado
+        return "¡Tocado!"
+
+    # Si no hay barco, marcamos agua
+    else:
+        tablero[fila, columna] = v.fallo
+        return "Agua."
