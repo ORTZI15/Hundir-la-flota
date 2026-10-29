@@ -71,3 +71,67 @@ def disparar(tablero, fila, columna):  # Recibe el tablero y las coordenadas
     else:
         tablero[fila, columna] = v.fallo
         return "Agua."
+
+
+def quedan_barcos(tablero):  # Recibe el tablero que queremos comprobar
+
+    # Comprobamos si todavía queda alguna casilla con un barco
+    return np.any(tablero == v.barco)
+
+
+
+def turno_jugador(tablero_maquina, tablero_disparos):  # Recibe los dos tableros necesarios
+
+    # Repetimos el turno mientras el jugador acierte
+    while True:
+
+        # Pedimos las coordenadas del disparo
+        fila = int(input("Introduce la fila (0-9): "))
+        columna = int(input("Introduce la columna (0-9): "))
+
+        # Ejecutamos el disparo contra el tablero de la máquina
+        resultado = disparar(tablero_maquina, fila, columna)
+        print(resultado)
+
+        # Si el disparo no es válido, volvemos a pedir coordenadas
+        if resultado == "Coordenadas fuera del tablero." or resultado == "Ya has disparado en esta casilla.":
+            continue
+
+        # Registramos el resultado en el tablero de disparos del jugador
+        if resultado == "¡Tocado!":
+            tablero_disparos[fila, columna] = v.tocado
+        else:
+            tablero_disparos[fila, columna] = v.fallo
+
+        # Si falla, termina el turno del jugador
+        if resultado == "Agua.":
+            break
+
+
+def turno_maquina(tablero_jugador, tablero_disparos):  # Recibe los tableros de la partida
+
+    # La máquina sigue jugando mientras acierte
+    while True:
+
+        # Elegimos coordenadas aleatorias dentro del tablero
+        fila = np.random.randint(0, v.tamano_tablero)
+        columna = np.random.randint(0, v.tamano_tablero)
+
+        # Si ya se disparó en esa casilla, elegimos otras coordenadas
+        if tablero_disparos[fila, columna] == v.tocado or tablero_disparos[fila, columna] == v.fallo:
+            continue
+
+        # Ejecutamos el disparo contra el tablero del jugador
+        resultado = disparar(tablero_jugador, fila, columna)
+        print("La máquina dispara en:", fila, columna)
+        print(resultado)
+
+        # Registramos el resultado en el tablero de disparos de la máquina
+        if resultado == "¡Tocado!":
+            tablero_disparos[fila, columna] = v.tocado
+        else:
+            tablero_disparos[fila, columna] = v.fallo
+
+        # Si falla, termina su turno
+        if resultado == "Agua.":
+            break
