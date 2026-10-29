@@ -85,10 +85,14 @@ def turno_jugador(tablero_maquina, tablero_disparos):  # Recibe los dos tableros
     # Repetimos el turno mientras el jugador acierte
     while True:
 
-        # Pedimos las coordenadas del disparo
-        fila = int(input("Introduce la fila (0-9): "))
-        columna = int(input("Introduce la columna (0-9): "))
+        # Intentamos convertir las coordenadas a números enteros y try para evitar que rompa
+        try:
+            fila = int(input("Introduce la fila (0-9): "))
+            columna = int(input("Introduce la columna (0-9): "))
 
+        except ValueError:  # Si se introduce algo que no es un número válido
+            print("Error: debes introducir números enteros.")
+            continue  # Volvemos a pedir las coordenadas
         # Ejecutamos el disparo contra el tablero de la máquina
         resultado = disparar(tablero_maquina, fila, columna)
         print(resultado)
