@@ -8,7 +8,7 @@ def crear_tablero():
 
 def colocar_barcos(tablero):  # Recibe el tablero donde colocaremos los barcos
 
-    for longitud in v.barcos:  # Recorremos los barcos de mayor a menor longitud
+    for eslora in v.barcos:  # Recorremos los barcos de mayor a menor longitud
 
         colocado = False  # Indica si el barco actual ya se ha colocado
 
@@ -22,23 +22,23 @@ def colocar_barcos(tablero):  # Recibe el tablero donde colocaremos los barcos
 
             if orientacion == "horizontal":  # Si el barco va en horizontal
 
-                if columna + longitud > v.tamano_tablero:  # Comprobamos si se sale del tablero
+                if columna + eslora > v.tamano_tablero:  # Comprobamos si se sale del tablero
                     continue  # Si se sale, volvemos a intentarlo
 
-                for desplazamiento in range(longitud):  # Recorremos cada casilla del barco
+                for desplazamiento in range(eslora):  # Recorremos cada casilla del barco
                     posiciones.append((fila, columna + desplazamiento))  # Guardamos su posición
 
             else:  # Si el barco va en vertical
 
-                if fila + longitud > v.tamano_tablero:  # Comprobamos si se sale del tablero
+                if fila + eslora > v.tamano_tablero:  # Comprobamos si se sale del tablero
                     continue  # Si se sale, volvemos a intentarlo
 
-                for desplazamiento in range(longitud):  # Recorremos cada casilla del barco
+                for desplazamiento in range(eslora):  # Recorremos cada casilla del barco
                     posiciones.append((fila + desplazamiento, columna))  # Guardamos su posición
 
-            libre = True  # Suponemos inicialmente que todas las casillas están libres
+            libre = True  # chekeo posición, suponemos inicialmente que todas las casillas están libres
 
-            for fila_pos, columna_pos in posiciones:  # Revisamos cada casilla candidata
+            for fila_pos, columna_pos in posiciones:  # Revisamos cada casilla 
                 if tablero[fila_pos, columna_pos] != v.agua:  # Si ya está ocupada
                     libre = False  # La posición no sirve
                     break  # Dejamos de revisar las demás casillas
